@@ -9,7 +9,7 @@ const cors    = require('cors');
 const path    = require('path');
 
 const app  = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 // ── Middlewares ──────────────────────────────────────────────
 app.use(cors());
@@ -19,12 +19,24 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 // ── Conexión a PostgreSQL ────────────────────────────────────
+/*
+  La conexion sale del entorno, no del codigo.
+
+  Antes estaba escrita a fuego: usuario, host, base y puerto 5432. Eso traia
+  dos problemas. El chico: Postgres.app no siempre usa el 5432 —en esta maquina
+  escucha en el 5433— y el servidor no conectaba sin editar el archivo. El
+  grande: el dia que esto vaya a un servidor de verdad, la contrasena se
+  escribiria aqui mismo y quedaria en el historial de git para siempre.
+
+  Los valores de respaldo son los de desarrollo local, asi que sigue
+  arrancando sin configurar nada. Ver .env.example.
+*/
 const pool = new Pool({
-    user:     'angeleduardotorrentoamaya',
-    host:     'localhost',
-    database: 'spotlight_dealership',
-    password: '',           // sin contraseña (Postgres.app por defecto)
-    port:     5432,
+    user:     process.env.PGUSER     || process.env.USER,
+    host:     process.env.PGHOST     || 'localhost',
+    database: process.env.PGDATABASE || 'spotlight_dealership',
+    password: process.env.PGPASSWORD || '',
+    port:     Number(process.env.PGPORT) || 5432,
 });
 
 pool.connect()
