@@ -66,7 +66,7 @@ PORT=3000
 ### 5. Arrancar
 
 ```bash
-node server.js
+npm start
 ```
 
 ```

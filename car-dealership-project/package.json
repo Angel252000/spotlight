@@ -1,10 +1,13 @@
 {
   "name": "car-dealership-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "SpotLight: concesionario de vehículos eléctricos con catálogo en PostgreSQL",
+  "main": "server.js",
+  "engines": {
+    "node": ">=20.12"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
