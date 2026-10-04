@@ -13,7 +13,7 @@ PostgreSQL, compra que se registra en la base, y vista 360° de cada auto.
 
 | | |
 |---|---|
-| Node | 18 o superior |
+| Node | 20.12 o superior (por `process.loadEnvFile`) |
 | PostgreSQL | 14 o superior |
 
 ### 2. Instalar

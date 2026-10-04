@@ -8,6 +8,12 @@ const { Pool } = require('pg');
 const cors    = require('cors');
 const path    = require('path');
 
+// Carga .env si existe (Node >= 20.12). Sin el archivo, se usan los valores
+// de respaldo de más abajo, así que no hay que tratarlo como error.
+try {
+  process.loadEnvFile(path.join(__dirname, '.env'));
+} catch {}
+
 const app  = express();
 const PORT = Number(process.env.PORT) || 3000;
 
