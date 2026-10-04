@@ -94,7 +94,8 @@ tocar código.
 ![Compra](car-dealership-project/docs/compra.jpg)
 
 El formulario envía a `POST /api/compra`, que guarda la venta y **descuenta el
-stock** del auto en la misma transacción.
+stock** del auto. Son dos consultas seguidas, **no una transacción**: si la
+segunda falla, la venta queda guardada sin descontar stock.
 
 ### Vista 360°
 
@@ -120,6 +121,23 @@ stock** del auto en la misma transacción.
 | `GET /api/autos` | Catálogo completo |
 | `POST /api/compra` | Registra una compra y descuenta stock |
 | `GET /api/compras` | Historial de ventas |
+
+Ejemplo de compra:
+
+```bash
+curl -X POST http://localhost:3000/api/compra \
+  -H "Content-Type: application/json" \
+  -d '{"auto_id": 1, "nombre_cliente": "Ana Pérez", "email": "ana@ejemplo.com",
+       "telefono": "8888-8888", "metodo_pago": "tarjeta", "total": 98900}'
+```
+
+Responde `201` con `{ mensaje, compra }`. Si falta cualquier campo salvo
+`auto_id`, responde `400`. `auto_id` es opcional: sin él se registra la venta
+pero no se toca el stock.
+
+> `GET /api/compras` devuelve nombre, correo y teléfono de todos los clientes
+> **sin autenticación**. Sirve para desarrollo local; antes de publicar el
+> servidor hay que protegerla o quitarla.
 
 ## La base de datos
 
